@@ -10,9 +10,10 @@
 - [示例](./examples/README.md)
 - [集成](./integrations/README.md)
 - [附录](./appendix/README.md)
-## 组件API索引
-本文档为AI根据游戏源代码生成，以下给出绝大多数组件API的索引
-查阅[开放式电脑官方文档](https://ocdoc.cil.li/start:zh)以获得更多信息
+## 组件 API 索引
+
+下面给出文档树中常用组件、扩展卡、升级与集成页面的快速入口，便于按组件名或模组名快速跳转。
+如果你还需要查阅 OpenComputers 本体的基础概念与上手说明，也可以参考[开放式电脑官方文档](https://ocdoc.cil.li/start:zh)。
 ### 电脑组件
 - 所有设备：[computer](./components/opencomputers-machine.md)
 - EEPROM：[eeprom](./components/opencomputers-eeprom.md)

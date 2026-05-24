@@ -27,6 +27,7 @@
 - [mekanism](./mekanism.md)
 - [railcraft](./railcraft.md)
 - [redlogic](./redlogic.md)
+- [sgcraft](./sgcraft.md)
 - [stargatetech2](./stargatetech2.md)
 - [storagedrawers](./storagedrawers.md)
 - [thaumcraft](./thaumcraft.md)
