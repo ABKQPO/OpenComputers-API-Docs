@@ -268,13 +268,17 @@
 
 #### `getEssentiaInNetwork([filter])`
 
-- 语法: `getEssentiaInNetwork([filter: string]): table`
-- 用途: 返回网络中当前可见的 essentia。
+- 语法: `getEssentiaInNetwork([filter: string])`
+- 语法: `getEssentiaInNetwork(detail: table)`
+- 用途: 返回网络中当前可见的 essentia，或按精确描述符解析单个 essentia。
 - 参数:
   - `filter: string`
     可选的 aspect id 过滤条件，会与 aspect 的未本地化名称匹配。
+  - `detail: table`
+    通过已注册 AE 栈解析器读取的精确 essentia 描述表。
 - 返回值:
-  - essentia 描述表数组。
+  - 字符串过滤形式: essentia 描述表数组。
+  - 描述符表形式: 单个匹配的 essentia 描述表，或 `nil`。
 - 说明:
   - 如果当前拿不到监视器，则返回 `nil`。
 
@@ -302,13 +306,17 @@
 
 #### `getEssentiaInNetwork([filter])`
 
-- 语法: `getEssentiaInNetwork([filter: string]): table`
-- 用途: 返回当前连接网络中可见的 essentia。
+- 语法: `getEssentiaInNetwork([filter: string])`
+- 语法: `getEssentiaInNetwork(detail: table)`
+- 用途: 返回当前连接网络中可见的 essentia，或按精确描述符解析单个 essentia。
 - 参数:
   - `filter: string`
     可选 aspect id 过滤条件。
+  - `detail: table`
+    通过已注册 AE 栈解析器读取的精确 essentia 描述表。
 - 返回值:
-  - essentia 描述表数组。
+  - 字符串过滤形式: essentia 描述表数组。
+  - 描述符表形式: 单个匹配的 essentia 描述表，或 `nil`。
 
 #### `setEssentiaEventSubscription(enabled)`
 

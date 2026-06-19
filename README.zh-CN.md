@@ -19,5 +19,5 @@
 
 ## 说明
 
-- 这套文档是基于本地 `OpenComputers`、`OpenSecurity`、`Computronics`、`OpenPrinter`、`Draconic-Evolution`、`SGCraft` 六个源码仓库扫描、整理并人工校对后导出的结果。
+- 这套文档是基于本地 `OpenComputers`、`OpenSecurity`、`LogisticsPipes`、`StorageDrawers`、`Computronics`、`OpenPrinter`、`Draconic-Evolution`、`SGCraft` 八个源码仓库扫描、整理并人工校对后导出的结果。
 - 附录中的盘点页会一并保留，用于保留这次文档整理过程中的审计上下文。

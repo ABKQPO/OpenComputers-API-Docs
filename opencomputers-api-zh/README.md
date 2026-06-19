@@ -101,7 +101,7 @@ OpenSecurity:
 - IC2：[IC2](./integrations/ic2.md)
 - RC：[Railcraft](./integrations/railcraft.md)
 - SGCraft：[stargate](./integrations/sgcraft.md) (星门OC接口)
-- Storage Drawers：[drawer](./integrations/storagedrawers.md) (抽屉管理器)
+- Storage Drawers：[storagedrawers](./integrations/storagedrawers.md) (历史集成审计说明)
 - 神秘时代：[Thaumcraft](./integrations/thaumcraft.md)
 ### 升级
 可加装在机器人、无人机或平板电脑的组件

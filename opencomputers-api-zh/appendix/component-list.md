@@ -73,6 +73,8 @@
 - `gpu`
 - `hologram`
 - `leash`
+- `logisticspipe`
+- `logisticssolidblock`
 - `microcontroller`
 - `motion_sensor`
 - `noise`

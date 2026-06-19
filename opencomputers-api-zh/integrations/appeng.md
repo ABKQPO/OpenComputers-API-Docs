@@ -118,6 +118,30 @@ local craftables = component.me_controller.getCraftables({label = "Printed Silic
 print(#craftables)
 ```
 
+### `getCraftable`
+
+- 语法：`me.getCraftable(detail, type)`
+- 参数：
+  - `detail`：一个 AE 栈描述表
+  - `type`：已注册的 AE 栈类型 id
+- 返回：`Craftable` userdata 或 `nil`
+- 用途：直接解析一个明确的可合成目标
+
+说明：
+
+- 源码会根据 `type` 指定的已注册 AE 栈类型，对 `detail` 做对应解析。
+- 在普通 AE2 物品网络里，`type` 通常就是物品栈类型 id。
+- 其他集成还可以继续注册新的 AE 栈类型，因此这个接口并不只限于普通物品。
+
+示例：
+
+```lua
+local craftable = component.me_controller.getCraftable(
+  {name = "minecraft:glass", damage = 0, size = 1},
+  "item"
+)
+```
+
 ### `getItemsInNetwork`
 
 - 语法：`me.getItemsInNetwork([filter])`
@@ -138,14 +162,20 @@ end
 ### `getItemInNetwork`
 
 - 语法：`me.getItemInNetwork(nameOrId[, damage[, nbtJson]])`
+- 语法：`me.getItemInNetwork(detail)`
 - 参数：
   - `nameOrId`：注册名字串或数值物品 id
   - `damage`：可选元数据，默认 `0`
-  - `nbtJson`：可选 JSON 格式 NBT 字符串，默认 `{}` 
+  - `nbtJson`：可选 SNBT 字符串，默认 `{}`
+  - `detail`：通过已注册 AE 物品栈解析器读取的物品描述表
 - 返回：转换后的物品表，找不到时返回 `nil`
 - 用途：精确查询某一种物品变体
 
-当你已经清楚物品的准确注册名、damage 和 NBT 时，这个接口最直接。
+说明：
+
+- 字符串 / id 形式会先构造临时 `ItemStack`，再把第三个参数按 Minecraft 的 SNBT 规则解析。
+- 表描述符形式是当前源码已经明确支持的新路径，适合直接拿现有描述表做精确查找。
+- 精确查询因此不再必须只用“名称 + damage + NBT 文本”这一种表达方式。
 
 示例：
 
@@ -154,6 +184,14 @@ local stack = component.me_controller.getItemInNetwork("minecraft:wool", 14)
 if stack then
   print(stack.label, stack.size)
 end
+```
+
+```lua
+local exact = component.me_controller.getItemInNetwork({
+  name = "minecraft:wool",
+  damage = 14,
+  size = 1
+})
 ```
 
 ### `getItemsInNetworkById`
@@ -177,17 +215,28 @@ local items = component.me_controller.getItemsInNetworkById({
 
 ### `getFluidInNetwork`
 
-- 语法：`me.getFluidInNetwork(name)`
+- 语法：`me.getFluidInNetwork([name])`
+- 语法：`me.getFluidInNetwork(detail)`
 - 参数：
-  - `name`：流体名，例如 `water`
+  - `name`：可选流体名，例如 `water`
+  - `detail`：通过已注册 AE 流体栈解析器读取的流体描述表
 - 返回：转换后的流体表，找不到时返回 `nil`
 - 用途：查询网络中的某一种流体
+
+说明：
+
+- 描述符表形式和物品精确查找保持一致，适合把之前转换过的流体描述再次传回源码。
+- 如果指定名称的流体不存在，则返回 `nil`。
 
 示例：
 
 ```lua
 local water = component.me_controller.getFluidInNetwork("water")
 print(water and water.amount or 0)
+```
+
+```lua
+local fluid = component.me_controller.getFluidInNetwork({name = "water", amount = 1})
 ```
 
 ### `allItems`
@@ -810,7 +859,7 @@ end
 
 ### `Craftable`
 
-由 `getCraftables` 返回。
+由 `getCraftable` 和 `getCraftables` 返回。
 
 #### `getStack`
 

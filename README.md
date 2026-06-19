@@ -19,5 +19,5 @@ This repository contains the exported OpenComputers Lua API documentation set in
 
 ## Notes
 
-- The content was assembled and manually reviewed against the local source repositories for OpenComputers, OpenSecurity, Computronics, OpenPrinter, Draconic Evolution, and SGCraft.
+- The content was assembled and manually reviewed against the local source repositories for OpenComputers, OpenSecurity, LogisticsPipes, StorageDrawers, Computronics, OpenPrinter, Draconic Evolution, and SGCraft.
 - Appendix inventory pages are preserved as audit context for the documentation pass.

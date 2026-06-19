@@ -268,13 +268,17 @@ When `thaumicenergistics` is installed, `me_controller` gains shared essentia ne
 
 #### `getEssentiaInNetwork([filter])`
 
-- Syntax: `getEssentiaInNetwork([filter: string]): table`
-- Purpose: Return stored essentia visible in the network.
+- Syntax: `getEssentiaInNetwork([filter: string])`
+- Syntax: `getEssentiaInNetwork(detail: table)`
+- Purpose: Return stored essentia visible in the network, or resolve one exact essentia descriptor.
 - Parameters:
   - `filter: string`
     Optional aspect id to match against the aspect's unlocalized name.
+  - `detail: table`
+    Exact essentia descriptor table parsed through the registered AE stack parser.
 - Returns:
-  - Array of essentia descriptor tables.
+  - String-filter form: array of essentia descriptor tables.
+  - Detail-table form: one matching essentia descriptor table or `nil`.
 - Usage notes:
   - If the monitor is unavailable, the callback returns `nil`.
 
@@ -302,13 +306,17 @@ Block `me_interface` components gain the same shared essentia network control ca
 
 #### `getEssentiaInNetwork([filter])`
 
-- Syntax: `getEssentiaInNetwork([filter: string]): table`
-- Purpose: Return stored essentia visible through the connected network.
+- Syntax: `getEssentiaInNetwork([filter: string])`
+- Syntax: `getEssentiaInNetwork(detail: table)`
+- Purpose: Return stored essentia visible through the connected network, or resolve one exact essentia descriptor.
 - Parameters:
   - `filter: string`
     Optional aspect id filter.
+  - `detail: table`
+    Exact essentia descriptor table parsed through the registered AE stack parser.
 - Returns:
-  - Array of essentia descriptor tables.
+  - String-filter form: array of essentia descriptor tables.
+  - Detail-table form: one matching essentia descriptor table or `nil`.
 
 #### `setEssentiaEventSubscription(enabled)`
 

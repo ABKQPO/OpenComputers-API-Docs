@@ -24,6 +24,7 @@
 - [gc](./gc.md)
 - [gregtech](./gregtech.md)
 - [ic2](./ic2.md)
+- [logisticspipes](./logisticspipes.md)
 - [mekanism](./mekanism.md)
 - [railcraft](./railcraft.md)
 - [redlogic](./redlogic.md)

@@ -119,6 +119,30 @@ local craftables = component.me_controller.getCraftables({label = "Printed Silic
 print(#craftables)
 ```
 
+### `getCraftable`
+
+- Syntax: `me.getCraftable(detail, type)`
+- Parameters:
+  - `detail`: descriptor table for one AE stack identity
+  - `type`: registered AE stack type id
+- Returns: `Craftable` userdata or `nil`
+- Purpose: resolves one known craftable recipe target directly
+
+Usage notes:
+
+- The source parses `detail` through the registered AE stack parser for the supplied `type`.
+- In normal AE2 item networks, `type` is typically the item stack type id.
+- Additional integrations can register other AE stack types, so this callback is more general than a plain item-only lookup.
+
+Example:
+
+```lua
+local craftable = component.me_controller.getCraftable(
+  {name = "minecraft:glass", damage = 0, size = 1},
+  "item"
+)
+```
+
 ### `getItemsInNetwork`
 
 - Syntax: `me.getItemsInNetwork([filter])`
@@ -139,14 +163,20 @@ end
 ### `getItemInNetwork`
 
 - Syntax: `me.getItemInNetwork(nameOrId[, damage[, nbtJson]])`
+- Syntax: `me.getItemInNetwork(detail)`
 - Parameters:
   - `nameOrId`: registry name string or numeric item id
   - `damage`: optional metadata, defaults to `0`
-  - `nbtJson`: optional JSON NBT string, defaults to `{}`
+  - `nbtJson`: optional SNBT string, defaults to `{}`
+  - `detail`: item descriptor table parsed through the registered AE item stack parser
 - Returns: converted item table or `nil`
 - Purpose: looks up one exact stored item variant
 
-This is best when you already know the exact item identity.
+Usage notes:
+
+- The string/id form builds a temporary `ItemStack` and parses the third argument with Minecraft's SNBT parser.
+- The table form is the current source-backed path for callers that already have a converted descriptor table.
+- Exact lookups therefore no longer need to be expressed only as name plus damage plus NBT text.
 
 Example:
 
@@ -155,6 +185,14 @@ local stack = component.me_controller.getItemInNetwork("minecraft:wool", 14)
 if stack then
   print(stack.label, stack.size)
 end
+```
+
+```lua
+local exact = component.me_controller.getItemInNetwork({
+  name = "minecraft:wool",
+  damage = 14,
+  size = 1
+})
 ```
 
 ### `getItemsInNetworkById`
@@ -178,17 +216,28 @@ local items = component.me_controller.getItemsInNetworkById({
 
 ### `getFluidInNetwork`
 
-- Syntax: `me.getFluidInNetwork(name)`
+- Syntax: `me.getFluidInNetwork([name])`
+- Syntax: `me.getFluidInNetwork(detail)`
 - Parameters:
-  - `name`: fluid name such as `water`
+  - `name`: optional fluid name such as `water`
+  - `detail`: fluid descriptor table parsed through the registered AE fluid stack parser
 - Returns: converted fluid table or `nil`
 - Purpose: looks up one fluid type in the network
+
+Usage notes:
+
+- The descriptor-table form mirrors the item lookup path and is the current source-backed way to do exact fluid lookups from previously converted values.
+- If the named fluid does not exist, the callback returns `nil`.
 
 Example:
 
 ```lua
 local water = component.me_controller.getFluidInNetwork("water")
 print(water and water.amount or 0)
+```
+
+```lua
+local fluid = component.me_controller.getFluidInNetwork({name = "water", amount = 1})
 ```
 
 ### `allItems`
@@ -789,7 +838,7 @@ end
 
 ### `Craftable`
 
-Returned by `getCraftables`.
+Returned by `getCraftable` and `getCraftables`.
 
 #### `getStack`
 

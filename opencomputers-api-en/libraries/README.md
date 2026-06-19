@@ -45,6 +45,7 @@ Bundled Lua libraries discovered across the audited repositories.
 - [openos keyboard](./opencomputers-openos-keyboard.md)
 - [openos lua_shell](./opencomputers-openos-lua-shell.md)
 - [openos modem](./opencomputers-openos-modem.md)
+- [openos nbt](./opencomputers-openos-nbt.md)
 - [openos note](./opencomputers-openos-note.md)
 - [openos package](./opencomputers-openos-package.md)
 - [openos pipe](./opencomputers-openos-pipe.md)

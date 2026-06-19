@@ -73,6 +73,8 @@ Reference appendix for documented component names.
 - `gpu`
 - `hologram`
 - `leash`
+- `logisticspipe`
+- `logisticssolidblock`
 - `microcontroller`
 - `motion_sensor`
 - `noise`
