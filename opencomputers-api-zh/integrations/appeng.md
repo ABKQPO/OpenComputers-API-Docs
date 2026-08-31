@@ -346,6 +346,7 @@ print(me.getStoredPower(), "/", me.getMaxStoredPower())
 
 启用后，组件会通过 `computer.signal` 发出事件。
 第一个参数是事件名，后续参数是发生变化的流体条目描述表。
+发生变化的条目会在发送前递归序列化为 NBT，因此信号负载是 Lua 可用的数据，而不是存活的 AE 栈对象。
 
 ### `isFluidEventSubscription`
 
@@ -367,6 +368,8 @@ print(me.getStoredPower(), "/", me.getMaxStoredPower())
 - 返回：布尔值
 - 用途：检查当前是否启用了物品变化订阅
 
+发生变化的物品条目会在发送前递归序列化为 NBT。接收端应将其视为普通 Lua 表和标量值，不能依赖信号负载保留 Java 或 AE userdata。
+
 示例：
 
 ```lua
@@ -387,6 +390,7 @@ print(changed.label, changed.size)
 
 `me_exportbus` 用于配置安装在 multipart 宿主上的 AE 导出总线。
 涉及方向参数时，使用普通 Forge 方向编号 `0` 到 `5`。
+配置槽位在 Lua 侧从 `1` 开始计数。省略 `slot` 时使用槽位 `1`；第一个槽位应传 `1`，不能传 `0`。
 
 ### `getExportConfiguration`
 
@@ -458,6 +462,7 @@ print(bus.exportIntoSlot(sides.north, 1))
 ## `me_importbus`
 
 `me_importbus` 用于配置安装在 multipart 宿主上的 AE 导入总线。
+配置槽位在 Lua 侧从 `1` 开始计数。省略 `slot` 时使用槽位 `1`；第一个槽位应传 `1`，不能传 `0`。
 
 ### `getImportConfiguration`
 
@@ -506,6 +511,7 @@ print(bus.getImportSlotSize(sides.up))
 ## `me_storagebus`
 
 `me_storagebus` 用于配置安装在 multipart 宿主上的 AE 存储总线。
+配置槽位在 Lua 侧从 `1` 开始计数。省略 `slot` 时使用槽位 `1`；第一个槽位应传 `1`，不能传 `0`。
 
 ### `getStorageConfiguration`
 
@@ -549,6 +555,7 @@ print(bus.getImportSlotSize(sides.up))
 
 `me_interface` 同时覆盖完整 AE 接口方块和 multipart 接口。
 完整方块接口不带前置 `side` 参数，multipart 接口则必须显式传入。
+配置槽位在 Lua 侧从 `1` 开始计数。省略 `slot` 时使用槽位 `1`；第一个槽位应传 `1`，不能传 `0`。
 
 ### `getInterfaceConfiguration`
 

@@ -4,20 +4,22 @@
 
 本页说明 OpenComputers 对 Storage Drawers 的集成接口。实现了抽屉组接口的方块会作为 Lua 组件暴露，可用于读取抽屉数量、库存占用和存储物品信息。
 
+> 源码审计说明（2026-08-31）：当前 StorageDrawers 提交增加了控制器/从属方块对通用 OpenComputers 转置器的兼容。下述专用 `drawer` 组件为保持现有文档集兼容而保留，实际安装整合包中的可用接口仍应在运行时确认。
+
 ## 可用性
 
 - 依赖: `storagedrawers`
 - 标签: `integration-required`
 
-## 组件名
+## 源码审计
 
-- `drawer`
+- 当前 OpenComputers 源码的 `src/main` 下没有 `storagedrawers` 或 `drawer` 驱动。
+- 当前 StorageDrawers 源码没有专用的 OpenComputers API 导入、回调或组件注册。
+- StorageDrawers 提交 `59b527f` 让控制器/从属方块可被通用 OpenComputers 转置器使用；它没有注册 `drawer` 组件，也没有增加 Storage Drawers 专用 Lua API。
 
-## 主要用途
+## 运行时确认说明
 
-- 监控整面抽屉墙的库存水平。
-- 在抽屉数量低于阈值时触发补货或自动合成。
-- 在向抽屉导入物品前判断对应槽位是否为空。
+下方 `drawer` API 保留自现有文档集。由于本次源码扫描没有找到其专用驱动，请使用 `component.list()` 和 `component.methods(address)` 确认当前安装整合包是否暴露这些接口。
 
 ## 组件
 
@@ -103,6 +105,8 @@ for slot = 1, drawer.getDrawerCount() do
   end
 end
 ```
+
+仅当所安装整合包暴露了对应库存能力时，才可通过通用库存转置器访问。请在运行时用 `component.list()` 和 `component.methods(address)` 确认实际可用方法。
 
 ## 相关内容
 

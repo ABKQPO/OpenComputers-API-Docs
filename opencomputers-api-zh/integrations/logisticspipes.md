@@ -89,6 +89,7 @@ LP 包装值通过通用包装基类暴露了两个很重要的自检接口。
 - `LogisticsPipes:Normal`
 - `LogisticsPipes:Request`
 - `LogisticsPipes:Crafting`
+- `LogisticsPipes:FluidRequest`
 - `LogisticsChassiePipe`
 
 ### 共享路由管道方法
@@ -132,6 +133,16 @@ LP 包装值通过通用包装基类暴露了两个很重要的自检接口。
 
 这些请求方法在源码里是 queued 调用，适合用于可能需要调度或等待的物流请求。
 
+### `LogisticsPipes:FluidRequest`
+
+流体请求管道还会增加面向流体网络自动化的 queued 方法：
+
+- `makeRequest(fluid, amount)` 请求指定包装 `FluidIdentifier` 的 `amount` 毫桶。
+- `getAvailableFluids()` 返回流体注册名到 LP 网络中可用总毫桶数的映射表。
+- `getFluidAmount(fluid)` 返回指定包装 `FluidIdentifier` 的可用毫桶数。
+
+流体标识符无效或缺少数量时会报错。调用前请通过 LP 全局辅助对象和包装层自检接口创建或检查 `FluidIdentifier`。
+
 ### `LogisticsPipes:Crafting`
 
 合成管道会增加：
@@ -162,6 +173,15 @@ LP 包装值通过通用包装基类暴露了两个很重要的自检接口。
   返回该方块的 LP 旋转值。
 
 和路由管道一样，如果具体方块类型带有 LP 计算机元数据，它还会通过包装层暴露更多能力。
+
+### 电力方块包装对象
+
+源码还确认了这些实体方块包装家族：
+
+- `LogisticsPowerJunction`: `getPowerLevel()` 和 `getMaxStorage()`。
+- `LogisticsPowerProvider`: `getLaserColor()`、`getMaxStorage()`、`getBrand()` 和 `getPowerLevel()`。
+
+具体 LP 电力方块决定数值和单位。请对目标方块调用 `help()` 取得精确的运行时签名。
 
 ## 包装模块家族
 

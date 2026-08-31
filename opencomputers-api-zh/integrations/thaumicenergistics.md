@@ -58,7 +58,7 @@
   - `side: number`
     安装该导出总线的 multipart 方向。
   - `slot: number`
-    可选配置槽编号，默认是 `0`。
+    可选配置槽编号。Lua 侧从 `1` 开始计数，默认是 `1`。
 - 返回值:
   - 该槽位的 essentia 描述表。
 
@@ -70,7 +70,7 @@
   - `side: number`
     安装该导出总线的 multipart 方向。
   - `slot: number`
-    可选槽位编号，默认是 `0`。
+    可选槽位编号。Lua 侧从 `1` 开始计数，默认是 `1`。
   - `detail: table`
     可选 essentia 描述表。
 - 返回值:
@@ -146,7 +146,7 @@
   - `side: number`
     安装该导入总线的 multipart 方向。
   - `slot: number`
-    可选槽位编号，默认是 `0`。
+    可选槽位编号。Lua 侧从 `1` 开始计数，默认是 `1`。
 - 返回值:
   - essentia 描述表。
 
@@ -158,7 +158,7 @@
   - `side: number`
     安装该导入总线的 multipart 方向。
   - `slot: number`
-    可选槽位编号，默认是 `0`。
+    可选槽位编号。Lua 侧从 `1` 开始计数，默认是 `1`。
   - `detail: table`
     可选 essentia 描述表。
 - 返回值:
@@ -210,7 +210,7 @@
   - `side: number`
     安装该存储总线的 multipart 方向。
   - `slot: number`
-    可选槽位编号，默认是 `0`。
+    可选槽位编号。Lua 侧从 `1` 开始计数，默认是 `1`。
 - 返回值:
   - essentia 描述表。
 
@@ -222,7 +222,7 @@
   - `side: number`
     安装该存储总线的 multipart 方向。
   - `slot: number`
-    可选槽位编号，默认是 `0`。
+    可选槽位编号。Lua 侧从 `1` 开始计数，默认是 `1`。
   - `detail: table`
     可选 essentia 描述表。
 - 返回值:
@@ -279,6 +279,9 @@
 - 返回值:
   - 字符串过滤形式: essentia 描述表数组。
   - 描述符表形式: 单个匹配的 essentia 描述表，或 `nil`。
+- 说明:
+  - 字符串形式会转换为 `name` 等于 aspect tag 的描述表。
+  - 描述符表形式通过已注册的 AE 栈解析器执行精确查询。
 - 说明:
   - 如果当前拿不到监视器，则返回 `nil`。
 
@@ -341,7 +344,9 @@
 - 语法: `network_essentia_changed(...)`
 - 用途: 当连接网络中的 essentia 发生变化时，向机器发送事件。
 - 说明:
-  - 这个事件负载由共享 AE 订阅系统管理，更适合做变更驱动自动化，而不是写死位置解析。
+  - 每个发生变化的 essentia 条目都会作为可安全序列化的 NBT 表发送。
+  - 第一个事件参数是事件名，后续参数是发生变化的 essentia 条目。
+  - 这个事件更适合做变更驱动自动化，而不是写死位置解析。
 
 ## 示例
 

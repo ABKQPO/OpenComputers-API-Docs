@@ -58,7 +58,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the export bus.
   - `slot: number`
-    Optional configuration slot index. Defaults to `0`.
+    Optional configuration slot index. Lua indices start at `1`; defaults to `1`.
 - Returns:
   - Essentia descriptor table for the slot.
 
@@ -70,7 +70,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the export bus.
   - `slot: number`
-    Optional slot index. Defaults to `0`.
+    Optional slot index. Lua indices start at `1`; defaults to `1`.
   - `detail: table`
     Optional essentia descriptor table.
 - Returns:
@@ -146,7 +146,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the import bus.
   - `slot: number`
-    Optional slot index. Defaults to `0`.
+    Optional slot index. Lua indices start at `1`; defaults to `1`.
 - Returns:
   - Essentia descriptor table.
 
@@ -158,7 +158,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the import bus.
   - `slot: number`
-    Optional slot index. Defaults to `0`.
+    Optional slot index. Lua indices start at `1`; defaults to `1`.
   - `detail: table`
     Optional essentia descriptor table.
 - Returns:
@@ -210,7 +210,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the storage bus.
   - `slot: number`
-    Optional slot index. Defaults to `0`.
+    Optional slot index. Lua indices start at `1`; defaults to `1`.
 - Returns:
   - Essentia descriptor table.
 
@@ -222,7 +222,7 @@ If the named aspect does not exist, the callback raises an argument error.
   - `side: number`
     Multipart side containing the storage bus.
   - `slot: number`
-    Optional slot index. Defaults to `0`.
+    Optional slot index. Lua indices start at `1`; defaults to `1`.
   - `detail: table`
     Optional essentia descriptor table.
 - Returns:
@@ -279,6 +279,8 @@ When `thaumicenergistics` is installed, `me_controller` gains shared essentia ne
 - Returns:
   - String-filter form: array of essentia descriptor tables.
   - Detail-table form: one matching essentia descriptor table or `nil`.
+
+The string form is converted into a descriptor with `name` equal to the aspect tag. The descriptor-table form supports exact lookup through the registered AE stack parser.
 - Usage notes:
   - If the monitor is unavailable, the callback returns `nil`.
 
@@ -341,7 +343,9 @@ Block `me_interface` components gain the same shared essentia network control ca
 - Syntax: `network_essentia_changed(...)`
 - Purpose: Notify the machine when stored essentia changes in the connected network.
 - Usage notes:
-  - The exact payload is managed by the shared AE subscription system and is intended for change-driven automation rather than fixed-position tuple parsing.
+  - Each changed essentia entry is delivered as a serialized NBT-safe table.
+  - The first signal argument is the event name; subsequent arguments are changed essentia entries.
+  - The payload is intended for change-driven automation rather than fixed-position tuple parsing.
 
 ## Example
 

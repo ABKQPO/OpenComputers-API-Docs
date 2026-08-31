@@ -15,6 +15,9 @@
 - `gt_batterybuffer`
 - `digital_chest`
 - `tt_machine`
+- `bec_diode`
+- `bec_io_node`
+- `bec_storage`
 
 ## 主要用途
 
@@ -222,6 +225,77 @@
   - `value`: 新的浮点数值。
 - 返回值:
   - 成功时没有有意义的返回值。
+
+### `bec_diode`
+
+`bec_diode` 组件对应 TecTech 的玻色-爱因斯坦凝聚态二极管 meta tile。
+
+#### `getCondensateFilter()`
+
+- 语法: `getCondensateFilter(): string | nil`
+- 用途: 返回凝聚态过滤器使用的流体注册名；未设置过滤器时返回 `nil`。
+
+#### `setCondensateFilter(fluidName)`
+
+- 语法: `setCondensateFilter(fluidName: string | nil)`
+- 用途: 按流体注册名设置凝聚态过滤器。传入 `nil` 会清除过滤器。
+- 错误:
+  - 未知流体名会抛出 `Unknown fluid: ...`。
+
+### `bec_io_node`
+
+`bec_io_node` 组件对应 TecTech BEC 输入/输出节点。
+
+#### 配方状态读取
+
+- `getRequiredCondensate(): table | nil`: 返回当前配方所需的流体注册名到数量映射。
+- `getConsumedCondensate(): table | nil`: 返回当前配方已消耗的流体注册名到数量映射。
+- `getProvidedTier(): table | nil`: 返回该节点提供的纳米等级 `{name, tier}`。
+- `getRequiredTier(): table | nil`: 返回当前配方要求的纳米等级 `{name, tier}`。
+- `getAvailableNanites(): number`: 返回可用纳米数量。
+- `getSlowdowns(): number`: 返回当前应用的减速次数。
+- `getParallelRecipesInProgress(): number`: 返回正在执行的并行配方数量。
+- `getMinParallel(): number`: 返回配置的最小并行配方数。
+- `getMaxParallel(): number`: 返回配置的最大并行配方数。
+- `getManualSlowdown(): number`: 返回手动减速值。
+- `getRecipeSteps(): table | nil`: 返回配方步骤表，每步包含 `nanite`、`start`、`end` 和 `index`。
+- `getState(): string`: 返回 `idle`、`unpowered`、`assembler-offline`、`nanite-tier-too-low`、`paused-step`、`paused-immediate`、`crafting` 或 `internal-error`。
+
+#### `setMinParallel(min)`
+
+- 语法: `setMinParallel(min: number)`
+- 用途: 设置最小并行配方数。
+
+#### `setMaxParallel(max)`
+
+- 语法: `setMaxParallel(max: number)`
+- 用途: 设置最大并行配方数。
+
+#### `setSpeedDivisor(divisor)`
+
+- 语法: `setSpeedDivisor(divisor: number)`
+- 用途: 设置配方速度除数。
+
+凝聚态表使用流体注册名到数值数量的映射。纳米等级表包含 `name` 和数值 `tier`；配方步骤表包含纳米等级以及 `start`、`end`、`index`。
+
+### `bec_storage`
+
+`bec_storage` 组件对应 TecTech BEC 存储节点。
+
+#### `getFieldStrength()`
+
+- 语法: `getFieldStrength(): number`
+- 用途: 返回存储节点的场强。
+
+#### `setFieldStrength(strength)`
+
+- 语法: `setFieldStrength(strength: number)`
+- 用途: 设置存储节点的场强。
+
+#### `getStoredCondensate()`
+
+- 语法: `getStoredCondensate(): table`
+- 用途: 返回流体注册名到已存储凝聚态数量的映射表。
 
 ## 示例
 

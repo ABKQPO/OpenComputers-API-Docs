@@ -15,6 +15,9 @@ This page documents the GregTech and TecTech integrations exposed through OpenCo
 - `gt_batterybuffer`
 - `digital_chest`
 - `tt_machine`
+- `bec_diode`
+- `bec_io_node`
+- `bec_storage`
 
 ## What This Integration Is Good For
 
@@ -222,6 +225,77 @@ These callbacks are exposed when the machine implements `IConfigurationCircuitSu
   - `value`: new floating-point value.
 - Returns:
   - No useful return value on success.
+
+### `bec_diode`
+
+`bec_diode` is exposed on TecTech Bose-Einstein condensate diode meta tiles.
+
+#### `getCondensateFilter()`
+
+- Syntax: `getCondensateFilter(): string | nil`
+- Purpose: Return the fluid registry name used as the condensate filter, or `nil` when no filter is set.
+
+#### `setCondensateFilter(fluidName)`
+
+- Syntax: `setCondensateFilter(fluidName: string | nil)`
+- Purpose: Set the condensate filter by fluid registry name. Passing `nil` clears the filter.
+- Errors:
+  - Unknown fluid names raise `Unknown fluid: ...`.
+
+### `bec_io_node`
+
+`bec_io_node` is exposed on TecTech BEC input/output nodes.
+
+#### Read-only recipe state
+
+- `getRequiredCondensate(): table | nil`: map fluid registry names to amounts required by the current recipe.
+- `getConsumedCondensate(): table | nil`: map fluid registry names to amounts consumed so far.
+- `getProvidedTier(): table | nil`: return `{name, tier}` for the nanite tier provided by this node.
+- `getRequiredTier(): table | nil`: return `{name, tier}` for the current recipe's required tier.
+- `getAvailableNanites(): number`: return available nanites.
+- `getSlowdowns(): number`: return the number of applied slowdowns.
+- `getParallelRecipesInProgress(): number`: return the number of parallel recipes in progress.
+- `getMinParallel(): number`: return the configured minimum parallel recipe count.
+- `getMaxParallel(): number`: return the configured maximum parallel recipe count.
+- `getManualSlowdown(): number`: return the configured manual slowdown.
+- `getRecipeSteps(): table | nil`: return recipe step tables with `nanite`, `start`, `end`, and `index` fields.
+- `getState(): string`: return `idle`, `unpowered`, `assembler-offline`, `nanite-tier-too-low`, `paused-step`, `paused-immediate`, `crafting`, or `internal-error`.
+
+#### `setMinParallel(min)`
+
+- Syntax: `setMinParallel(min: number)`
+- Purpose: Set the minimum parallel recipe count.
+
+#### `setMaxParallel(max)`
+
+- Syntax: `setMaxParallel(max: number)`
+- Purpose: Set the maximum parallel recipe count.
+
+#### `setSpeedDivisor(divisor)`
+
+- Syntax: `setSpeedDivisor(divisor: number)`
+- Purpose: Set the recipe speed divisor.
+
+Condensate tables map fluid registry names to numeric amounts. Nanite tier tables contain `name` and numeric `tier`; recipe step tables contain the nanite tier plus `start`, `end`, and `index`.
+
+### `bec_storage`
+
+`bec_storage` is exposed on TecTech BEC storage nodes.
+
+#### `getFieldStrength()`
+
+- Syntax: `getFieldStrength(): number`
+- Purpose: Return the storage node field strength.
+
+#### `setFieldStrength(strength)`
+
+- Syntax: `setFieldStrength(strength: number)`
+- Purpose: Set the storage node field strength.
+
+#### `getStoredCondensate()`
+
+- Syntax: `getStoredCondensate(): table`
+- Purpose: Return a table mapping fluid registry names to stored condensate amounts.
 
 ## Example
 

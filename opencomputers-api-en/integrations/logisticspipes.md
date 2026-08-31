@@ -89,6 +89,7 @@ The concrete callable surface depends on the wrapped pipe type. Source metadata 
 - `LogisticsPipes:Normal`
 - `LogisticsPipes:Request`
 - `LogisticsPipes:Crafting`
+- `LogisticsPipes:FluidRequest`
 - `LogisticsChassiePipe`
 
 ### Shared routed-pipe methods
@@ -132,6 +133,16 @@ Request pipes add network-query and request methods such as:
 
 The request methods are queued in source, so they are meant for logistics operations that may take time or need server-side scheduling.
 
+### `LogisticsPipes:FluidRequest`
+
+Fluid request pipes add queued methods for fluid-network automation:
+
+- `makeRequest(fluid, amount)` requests `amount` millibuckets of a wrapped `FluidIdentifier`.
+- `getAvailableFluids()` returns a table mapping fluid registry names to available millibuckets.
+- `getFluidAmount(fluid)` returns the available millibuckets for a wrapped `FluidIdentifier`.
+
+Invalid fluid identifiers or missing amounts produce an error. Create or inspect `FluidIdentifier` values through the LP global helper and wrapper discovery methods before passing them to these calls.
+
 ### `LogisticsPipes:Crafting`
 
 Crafting pipes add:
@@ -162,6 +173,15 @@ The audited source confirms at least:
   Return the LP rotation value of the block.
 
 Like routed pipes, the block uses the wrapper system to expose additional behavior when the concrete block type carries LP computer metadata.
+
+### Power block wrappers
+
+The source also identifies these solid-block wrapper families:
+
+- `LogisticsPowerJunction`: `getPowerLevel()` and `getMaxStorage()`.
+- `LogisticsPowerProvider`: `getLaserColor()`, `getMaxStorage()`, `getBrand()`, and `getPowerLevel()`.
+
+Their values and units follow the concrete LP power block. Use `help()` on the addressed block for the precise runtime signature.
 
 ## Wrapped Module Families
 

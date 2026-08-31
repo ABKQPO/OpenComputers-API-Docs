@@ -4,20 +4,22 @@
 
 This page documents the Storage Drawers integration exposed by OpenComputers. Drawer controller blocks and drawer groups become queryable Lua components for reading occupancy and stored item identity.
 
+> Source audit note (2026-08-31): the current StorageDrawers commit adds compatibility with the generic OpenComputers transposer for controller/slave blocks. The dedicated `drawer` component described below is retained for compatibility with the existing documentation set and should be verified against the installed modpack at runtime.
+
 ## Availability
 
 - Dependency: `storagedrawers`
 - Label: `integration-required`
 
-## Component Name
+## Source Audit
 
-- `drawer`
+- The current OpenComputers tree has no `storagedrawers` or `drawer` driver under `src/main`.
+- The current StorageDrawers tree has no dedicated OpenComputers API imports, callbacks, or component registration.
+- StorageDrawers commit `59b527f` makes controller/slave blocks usable through the generic OpenComputers transposer. It does not register a `drawer` component or a Storage Drawers-specific Lua API.
 
-## What This Integration Is Good For
+## Runtime Verification Note
 
-- Monitoring stock levels in drawer walls.
-- Triggering restock or crafting jobs when a drawer falls below a threshold.
-- Checking whether a drawer slot is empty before routing items into it.
+The `drawer` API below is retained from the existing documentation set. Because the current source scan does not locate its dedicated driver, verify that the installed modpack exposes it with `component.list()` and `component.methods(address)`.
 
 ## Component
 
@@ -103,6 +105,8 @@ for slot = 1, drawer.getDrawerCount() do
   end
 end
 ```
+
+Use a generic inventory transposer only when the installed modpack exposes the relevant inventory capability. Verify available methods at runtime with `component.list()` and `component.methods(address)`.
 
 ## Related
 
