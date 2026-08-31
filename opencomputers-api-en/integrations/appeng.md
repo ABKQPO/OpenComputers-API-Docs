@@ -346,6 +346,7 @@ print(me.getStoredPower(), "/", me.getMaxStoredPower())
 - Purpose: subscribes or unsubscribes from `network_fluid_changed`
 
 When enabled, the component sends a computer signal whose first argument is the event name and whose remaining arguments are converted fluid entries that changed.
+Changed entries are recursively serialized through NBT before dispatch, so signal payloads contain Lua-safe data rather than live AE stack objects.
 
 ### `isFluidEventSubscription`
 
@@ -367,6 +368,8 @@ When enabled, the component sends a computer signal whose first argument is the 
 - Returns: boolean
 - Purpose: checks whether item change subscription is enabled
 
+Changed item entries are recursively serialized through NBT before dispatch. Treat the received values as ordinary Lua tables and scalar values; do not depend on Java or AE userdata surviving in the signal payload.
+
 Example:
 
 ```lua
@@ -387,6 +390,7 @@ Use it when you want a stationary machine to inspect or automate an AE network d
 
 `me_exportbus` configures an AE export bus on a multipart host.
 All bus directions are regular Forge sides `0` through `5`.
+Configuration slots use one-based Lua indices. Omitting `slot` selects slot `1`; pass `1`, not `0`, for the first slot.
 
 ### `getExportConfiguration`
 
@@ -455,6 +459,7 @@ print(bus.exportIntoSlot(sides.north, 1))
 ## `me_importbus`
 
 `me_importbus` configures an AE import bus on a multipart host.
+Configuration slots use one-based Lua indices. Omitting `slot` selects slot `1`; pass `1`, not `0`, for the first slot.
 
 ### `getImportConfiguration`
 
@@ -498,6 +503,7 @@ print(bus.getImportSlotSize(sides.up))
 ## `me_storagebus`
 
 `me_storagebus` configures an AE storage bus on a multipart host.
+Configuration slots use one-based Lua indices. Omitting `slot` selects slot `1`; pass `1`, not `0`, for the first slot.
 
 ### `getStorageConfiguration`
 
@@ -537,6 +543,7 @@ Storage buses start with more slots than import or export buses, and capacity up
 `me_interface` is exposed for both full AE interface blocks and multipart interfaces.
 Block interfaces omit the leading `side` argument.
 Multipart interfaces require it.
+Configuration slots use one-based Lua indices. Omitting `slot` selects slot `1`; pass `1`, not `0`, for the first slot.
 
 ### `getInterfaceConfiguration`
 

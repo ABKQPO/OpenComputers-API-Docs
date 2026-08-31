@@ -100,8 +100,8 @@ OpenSecurity:
 - GT机器：[gt_machine](./integrations/gregtech.md)
 - IC2：[IC2](./integrations/ic2.md)
 - RC：[Railcraft](./integrations/railcraft.md)
-- SGCraft：[stargate](./integrations/sgcraft.md) (星门OC接口)
-- Storage Drawers：[storagedrawers](./integrations/storagedrawers.md) (历史集成审计说明)
+- SGCraft：[stargate](./integrations/sgcraft.md)
+- Storage Drawers：[storagedrawers](./integrations/storagedrawers.md)
 - 神秘时代：[Thaumcraft](./integrations/thaumcraft.md)
 ### 升级
 可加装在机器人、无人机或平板电脑的组件
