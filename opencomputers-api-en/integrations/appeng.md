@@ -16,6 +16,7 @@ It covers stationary ME network components, bus and interface configuration, int
 - `me_exportbus`
 - `me_importbus`
 - `me_storagebus`
+- `me_cellworkbench`
 - `me_interface`
 - `me_interface_terminal`
 - `upgrade_me`
@@ -537,6 +538,103 @@ Configuration slots use one-based Lua indices. Omitting `slot` selects slot `1`;
 - Purpose: returns the number of usable configuration slots
 
 Storage buses start with more slots than import or export buses, and capacity upgrades increase the limit further.
+
+## `me_cellworkbench`
+
+`me_cellworkbench` is exposed on Applied Energistics 2 Cell Workbench blocks. It reads and edits the storage cell inserted in the workbench. Partition slots use one-based Lua indices.
+
+### `hasCell()`
+
+- Syntax: `workbench.hasCell(): boolean`
+- Purpose: Return whether a storage cell is currently inserted.
+
+### `getCellType()`
+
+- Syntax: `workbench.getCellType(): string | nil`
+- Returns:
+  - The registered AE stack type id, such as `item`, `fluid`, or `essentia`.
+  - `nil` when no cell is inserted or its stack type is unavailable.
+
+### `getCell()`
+
+- Syntax: `workbench.getCell(): table | nil`
+- Purpose: Return the inserted cell item as a converted item table, or `nil` when no cell is inserted.
+- Usage notes:
+  - Essentia cells may return limited item information because their stack type is not an ordinary item stack.
+
+### `getPartition()`
+
+- Syntax: `workbench.getPartition(): table`
+- Purpose: Return the workbench partition configuration.
+- Returns:
+  - A table indexed from `1` through the workbench configuration size.
+  - Empty partition slots are omitted from the returned table.
+
+### `setPartition(slot, item)`
+
+- Syntax: `workbench.setPartition(slot: number[, item: table]): boolean`
+- Parameters:
+  - `slot`: one-based partition slot index.
+  - `item`: optional item or AE stack descriptor table. Its parser is selected from the inserted cell's stack type.
+- Returns: `true` on success.
+- Usage notes:
+  - Omit `item` to clear the selected partition.
+  - An out-of-range slot raises `invalid slot`.
+  - Setting a non-empty partition requires an inserted cell; otherwise the callback raises `no cell inserted`.
+
+### `clearPartitions()`
+
+- Syntax: `workbench.clearPartitions(): boolean`
+- Purpose: Clear every partition slot in the workbench.
+- Returns: `true` on success.
+
+### `getRestriction()`
+
+- Syntax: `workbench.getRestriction(): number, number`
+- Returns: Two values, `types` and `amount`.
+- Usage notes:
+  - `(0, 0)` represents an unrestricted cell.
+
+### `setRestriction(types, amount)`
+
+- Syntax: `workbench.setRestriction(types: number, amount: number): boolean`
+- Parameters:
+  - `types`: cell type restriction count/value.
+  - `amount`: cell amount restriction.
+- Returns: `true` on success.
+- Usage notes:
+  - An inserted cell is required; otherwise the callback raises `no cell inserted`.
+  - `(0, 0)` represents an unrestricted cell.
+
+### `getOreFilter()`
+
+- Syntax: `workbench.getOreFilter(): string`
+- Purpose: Return the inserted cell's ore dictionary filter string.
+- Returns:
+  - The configured filter string.
+  - An empty string when no filter is set, rather than `nil`.
+
+### `setOreFilter(filter)`
+
+- Syntax: `workbench.setOreFilter(filter: string): boolean`
+- Purpose: Set the inserted cell's ore dictionary filter string.
+- Returns: `true` on success.
+- Usage notes:
+  - An inserted cell is required; otherwise the callback raises `no cell inserted`.
+
+### `getCopyMode()`
+
+- Syntax: `workbench.getCopyMode(): string`
+- Returns: `keep` when partitions remain after cell removal, otherwise `clear`.
+
+### `setCopyMode(mode)`
+
+- Syntax: `workbench.setCopyMode(mode: string): boolean`
+- Parameters:
+  - `mode`: `clear` or `keep`.
+- Returns: `true` on success.
+- Errors:
+  - Any other mode raises `invalid mode: ...`.
 
 ## `me_interface`
 

@@ -16,6 +16,7 @@
 - `me_exportbus`
 - `me_importbus`
 - `me_storagebus`
+- `me_cellworkbench`
 - `me_interface`
 - `me_interface_terminal`
 - `upgrade_me`
@@ -550,6 +551,103 @@ print(bus.getImportSlotSize(sides.up))
 - 用途：读取当前可用的配置槽数量
 
 存储总线的基础配置槽通常比导入或导出总线更多，容量升级还能继续增加上限。
+
+## `me_cellworkbench`
+
+`me_cellworkbench` 组件对应 Applied Energistics 2 的元件工作台方块，可读取和编辑工作台中插入的存储元件。分区槽位在 Lua 侧从 `1` 开始计数。
+
+### `hasCell()`
+
+- 语法: `workbench.hasCell(): boolean`
+- 用途: 返回当前是否插入了存储元件。
+
+### `getCellType()`
+
+- 语法: `workbench.getCellType(): string | nil`
+- 返回值:
+  - AE 栈类型注册 id，例如 `item`、`fluid` 或 `essentia`。
+  - 未插入元件或栈类型不可用时返回 `nil`。
+
+### `getCell()`
+
+- 语法: `workbench.getCell(): table | nil`
+- 用途: 返回插入的存储元件转换后的物品表；未插入元件时返回 `nil`。
+- 说明:
+  - essentia 存储元件的栈类型不是普通物品栈，因此返回的物品信息可能不完整。
+
+### `getPartition()`
+
+- 语法: `workbench.getPartition(): table`
+- 用途: 返回工作台的分区配置。
+- 返回值:
+  - 以 `1` 到工作台配置槽数量为索引的表。
+  - 空的分区槽不会出现在返回表中。
+
+### `setPartition(slot, item)`
+
+- 语法: `workbench.setPartition(slot: number[, item: table]): boolean`
+- 参数:
+  - `slot`: 一基分区槽位编号。
+  - `item`: 可选的物品或 AE 栈描述表，解析器根据当前插入元件的栈类型选择。
+- 返回: 成功时返回 `true`。
+- 说明:
+  - 省略 `item` 会清空指定分区槽。
+  - 槽位越界会抛出 `invalid slot`。
+  - 设置非空分区时必须插入存储元件，否则会抛出 `no cell inserted`。
+
+### `clearPartitions()`
+
+- 语法: `workbench.clearPartitions(): boolean`
+- 用途: 清空工作台中的全部分区槽。
+- 返回: 成功时返回 `true`。
+
+### `getRestriction()`
+
+- 语法: `workbench.getRestriction(): number, number`
+- 返回值: 返回两个值 `types` 和 `amount`。
+- 说明:
+  - `(0, 0)` 表示存储元件不受限制。
+
+### `setRestriction(types, amount)`
+
+- 语法: `workbench.setRestriction(types: number, amount: number): boolean`
+- 参数:
+  - `types`: 元件类型限制值。
+  - `amount`: 元件数量限制值。
+- 返回: 成功时返回 `true`。
+- 说明:
+  - 必须插入存储元件，否则会抛出 `no cell inserted`。
+  - `(0, 0)` 表示存储元件不受限制。
+
+### `getOreFilter()`
+
+- 语法: `workbench.getOreFilter(): string`
+- 用途: 返回插入元件的矿辞过滤字符串。
+- 返回值:
+  - 当前过滤字符串。
+  - 未设置过滤器时返回空字符串，而不是 `nil`。
+
+### `setOreFilter(filter)`
+
+- 语法: `workbench.setOreFilter(filter: string): boolean`
+- 用途: 设置插入元件的矿辞过滤字符串。
+- 返回: 成功时返回 `true`。
+- 说明:
+  - 必须插入存储元件，否则会抛出 `no cell inserted`。
+
+### `getCopyMode()`
+
+- 语法: `workbench.getCopyMode(): string`
+- 返回值: 元件移除后保留分区时返回 `keep`，否则返回 `clear`。
+
+### `setCopyMode(mode)`
+
+- 语法: `workbench.setCopyMode(mode: string): boolean`
+- 参数:
+  - `mode`: `clear` 或 `keep`。
+- 返回: 成功时返回 `true`。
+- 错误:
+  - 其他模式会抛出 `invalid mode: ...`。
 
 ## `me_interface`
 

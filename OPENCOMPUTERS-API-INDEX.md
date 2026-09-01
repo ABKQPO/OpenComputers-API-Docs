@@ -13,14 +13,14 @@ This local documentation set is derived from the current workspace state of:
 
 ## Snapshot
 
-- Last source rescan: `2026-08-31`
+- Last source rescan: `2026-09-01`
 
 - Documentation languages: `English` and `中文`
 - Total Markdown documents: `997`
 - English documents: `494`
 - Chinese documents: `494`
-- English syntax entries scanned from docs: `1160`
-- Chinese syntax entries scanned from docs: `1160`
+- English syntax entries scanned from docs: `1172`
+- Chinese syntax entries scanned from docs: `1172`
 - Source-reference repositories scanned:
   - `OpenComputers`
   - `OpenSecurity`
@@ -55,6 +55,7 @@ Each language tree currently contains the same section counts:
 - The syntax-entry counts above are based on explicit `Syntax:` / `语法:` lines present in the current Markdown pages, so they describe documentation structure density rather than the exact upstream API total by themselves.
 - Appendix inventory pages remain in the export to preserve audit context and cross-check history.
 - The 2026-08-31 rescan synchronized `OpenComputers` (`c3a147af`), `OpenSecurity` (`d94ead8`), `LogisticsPipes` (`5c0de07`), and `StorageDrawers` (`59b527f`). It added the TecTech BEC component reference, corrected AE/Thaumic Energistics one-based slot and event payload behavior, expanded LogisticsPipes fluid request coverage, and annotated StorageDrawers' existing `drawer` API with its current source-audit status.
+- The 2026-09-01 OpenComputers rescan includes PR #219 (`971815a7a` / `ae135bb`) and adds the `me_cellworkbench` AppEng component reference in both languages.
 
 ## Audit Artifacts
 
