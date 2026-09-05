@@ -230,17 +230,50 @@
 
 `bec_diode` 组件对应 TecTech 的玻色-爱因斯坦凝聚态二极管 meta tile。
 
-#### `getCondensateFilter()`
+#### `getCondensateFilterCount()`
 
-- 语法: `getCondensateFilter(): string | nil`
-- 用途: 返回凝聚态过滤器使用的流体注册名；未设置过滤器时返回 `nil`。
+- 语法: `getCondensateFilterCount(): number`
+- 用途: 返回二极管提供的凝聚态过滤器槽位数量。
 
-#### `setCondensateFilter(fluidName)`
+#### `getCondensateFilters()`
 
-- 语法: `setCondensateFilter(fluidName: string | nil)`
-- 用途: 按流体注册名设置凝聚态过滤器。传入 `nil` 会清除过滤器。
+- 语法: `getCondensateFilters(): table`
+- 用途: 返回各过滤器槽位所设置的流体注册名。
+- 返回值:
+  - 返回一个从 `1` 到过滤器槽位数量索引的表。
+  - 空槽位使用 `nil` 表示。
+
+#### `setCondensateFilters(filters)`
+
+- 语法: `setCondensateFilters(filters: table)`
+- 用途: 一次性设置全部凝聚态过滤器槽位。
+- 参数:
+  - `filters`: 使用流体注册名的 1-based 表。缺失或为 `nil` 的项会清除对应槽位。
 - 错误:
+  - 非字符串且非 `nil` 的项会抛出 `Filter <slot> must be a fluid name or nil`。
   - 未知流体名会抛出 `Unknown fluid: ...`。
+
+#### `getCondensateFilterAt(slot)`
+
+- 语法: `getCondensateFilterAt(slot: number): string | nil`
+- 用途: 返回一个凝聚态过滤器槽位中的流体注册名；槽位为空时返回 `nil`。
+- 参数:
+  - `slot`: 介于 `1` 和 `getCondensateFilterCount()` 之间的 1-based 过滤器槽位。
+- 错误:
+  - 超出可用槽位范围的索引会抛出 `Filter slot must be between 1 and <count>`。
+
+#### `setCondensateFilterAt(slot, fluidName)`
+
+- 语法: `setCondensateFilterAt(slot: number[, fluidName: string])`
+- 用途: 按流体注册名设置一个凝聚态过滤器槽位。省略 `fluidName` 或传入 `nil` 会清除该槽位。
+- 参数:
+  - `slot`: 介于 `1` 和 `getCondensateFilterCount()` 之间的 1-based 过滤器槽位。
+  - `fluidName`: 要设置的流体注册名，或用于清除槽位的 `nil`。
+- 错误:
+  - 超出可用槽位范围的索引会抛出 `Filter slot must be between 1 and <count>`。
+  - 未知流体名会抛出 `Unknown fluid: ...`。
+
+过滤器槽位对 Lua 暴露时使用从 1 开始的索引，而底层 TecTech 实现使用从 0 开始的索引。当前驱动不再暴露旧的单过滤器回调 `getCondensateFilter()` 和 `setCondensateFilter()`。
 
 ### `bec_io_node`
 

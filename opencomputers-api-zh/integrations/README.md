@@ -26,6 +26,8 @@
 - [ic2](./ic2.md)
 - [logisticspipes](./logisticspipes.md)
 - [mekanism](./mekanism.md)
+- [ocglasses](./ocglasses.md)
+- [openmodularturrets](./openmodularturrets.md)
 - [railcraft](./railcraft.md)
 - [redlogic](./redlogic.md)
 - [sgcraft](./sgcraft.md)

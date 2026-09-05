@@ -101,6 +101,8 @@ OpenSecurity:
 - GT机器：[gt_machine](./integrations/gregtech.md)
 - IC2：[IC2](./integrations/ic2.md)
 - 物流管道：[Logistics Pipes](./integrations/logisticspipes.md)
+- OCGlasses：[glasses](./integrations/ocglasses.md)
+- Open Modular Turrets：[tierOneTurretBase](./integrations/openmodularturrets.md) 等五级炮塔基座
 - RC：[Railcraft](./integrations/railcraft.md)
 - SGCraft：[stargate](./integrations/sgcraft.md)
 - Storage Drawers：[storagedrawers](./integrations/storagedrawers.md)

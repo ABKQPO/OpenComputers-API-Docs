@@ -230,17 +230,50 @@ These callbacks are exposed when the machine implements `IConfigurationCircuitSu
 
 `bec_diode` is exposed on TecTech Bose-Einstein condensate diode meta tiles.
 
-#### `getCondensateFilter()`
+#### `getCondensateFilterCount()`
 
-- Syntax: `getCondensateFilter(): string | nil`
-- Purpose: Return the fluid registry name used as the condensate filter, or `nil` when no filter is set.
+- Syntax: `getCondensateFilterCount(): number`
+- Purpose: Return the number of condensate filter slots provided by the diode.
 
-#### `setCondensateFilter(fluidName)`
+#### `getCondensateFilters()`
 
-- Syntax: `setCondensateFilter(fluidName: string | nil)`
-- Purpose: Set the condensate filter by fluid registry name. Passing `nil` clears the filter.
+- Syntax: `getCondensateFilters(): table`
+- Purpose: Return the fluid registry names assigned to the filter slots.
+- Returns:
+  - A table indexed from `1` through the filter-slot count.
+  - An empty slot is represented by `nil`.
+
+#### `setCondensateFilters(filters)`
+
+- Syntax: `setCondensateFilters(filters: table)`
+- Purpose: Set all condensate filter slots at once.
+- Parameters:
+  - `filters`: A 1-based table of fluid registry names. Missing or `nil` entries clear the corresponding slots.
 - Errors:
+  - A non-string, non-`nil` entry raises `Filter <slot> must be a fluid name or nil`.
   - Unknown fluid names raise `Unknown fluid: ...`.
+
+#### `getCondensateFilterAt(slot)`
+
+- Syntax: `getCondensateFilterAt(slot: number): string | nil`
+- Purpose: Return the fluid registry name assigned to one condensate filter slot, or `nil` when that slot is empty.
+- Parameters:
+  - `slot`: A 1-based filter slot between `1` and `getCondensateFilterCount()`.
+- Errors:
+  - An index outside the available slot range raises `Filter slot must be between 1 and <count>`.
+
+#### `setCondensateFilterAt(slot, fluidName)`
+
+- Syntax: `setCondensateFilterAt(slot: number[, fluidName: string])`
+- Purpose: Set one condensate filter slot by fluid registry name. Omit `fluidName` or pass `nil` to clear the slot.
+- Parameters:
+  - `slot`: A 1-based filter slot between `1` and `getCondensateFilterCount()`.
+  - `fluidName`: The fluid registry name to assign, or `nil` to clear the slot.
+- Errors:
+  - An index outside the available slot range raises `Filter slot must be between 1 and <count>`.
+  - Unknown fluid names raise `Unknown fluid: ...`.
+
+Filter slots are exposed to Lua with 1-based indices, while the underlying TecTech implementation uses 0-based indices. The former single-filter callbacks `getCondensateFilter()` and `setCondensateFilter()` are not exposed by the current driver.
 
 ### `bec_io_node`
 
